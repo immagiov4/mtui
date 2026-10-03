@@ -29,8 +29,10 @@ export default {
         }
     },
     template: /*html*/`
+    <section class="mtui-command-list">
     <h4>Available commands</h4>
-    <table class="table table-condensed table-striped">
+    <div class="table-responsive">
+    <table class="table">
         <thead>
             <tr>
                 <th>Name</th>
@@ -42,9 +44,9 @@ export default {
         <tbody>
             <tr v-for="(def, name) in available_chatcommands" :key="name">
                 <td>
-                    <a class="btn btn-sm btn-primary" v-on:click="$emit('selected', name)">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" v-on:click="$emit('selected', name)">
                         {{name}}
-                    </a>
+                    </button>
                 </td>
                 <td>{{def.description}}</td>
                 <td>{{def.params}}</td>
@@ -56,5 +58,7 @@ export default {
             </tr>
         </tbody>
     </table>
+    </div>
+    </section>
     `
 };

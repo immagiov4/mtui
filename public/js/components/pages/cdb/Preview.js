@@ -7,9 +7,9 @@ export default {
         }
     },
     template: /*html*/`
-    <div class="card" style="width: 16rem; margin: 5px; flex: 0 0 auto;">
+    <div class="card mtui-cdb-preview">
         <router-link :to="'/cdb/detail/' + pkg.author + '/' + pkg.name">
-            <img :src="thumbnail" class="card-img-top" style="height: 180px;"/>
+            <img :src="thumbnail" class="card-img-top" :alt="pkg.name"/>
         </router-link>
         <div class="card-body">
             <h5 class="card-title">
@@ -24,7 +24,6 @@ export default {
             </span>
             <p class="card-text">{{pkg.short_description}}</p>
             <button class="btn btn-success"
-                style="position: absolute; bottom: 15px; right: 15px;"
                 v-if="install_button"
                 v-on:click="$emit('install', pkg)">
                 <i class="fa fa-plus"></i>

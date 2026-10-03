@@ -12,6 +12,8 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+const serviceLogPollInterval = 10 * time.Second
+
 func collectServiceLogs(a *app.App, timestamp_key types.ConfigKey, event string, s *dockerservice.DockerService) {
 	if s == nil {
 		// nothing to collect
@@ -91,6 +93,6 @@ func serviceLogs(a *app.App) {
 		}
 
 		// re-schedule
-		time.Sleep(time.Second * 1)
+		time.Sleep(serviceLogPollInterval)
 	}
 }

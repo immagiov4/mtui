@@ -151,9 +151,8 @@ export default {
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-10"></div>
-				<div class="col-md-2">
+			<div class="row justify-content-end">
+				<div class="col-12 col-md-auto">
 					<button class="btn btn-primary w-100" v-on:click="check_updates" :disabled="busy">
 						<i class="fa fa-refresh" v-bind:class="{'fa-spin': busy}"></i>
 						Check for updates

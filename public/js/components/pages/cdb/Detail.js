@@ -46,14 +46,14 @@ export default {
             <small class="text-muted">by {{pkg.author}}</small>
         </h4>
         <div class="row">
-            <div class="col-10">
+            <div class="col-12 col-lg-9">
                 <div class="card">
                     <div class="card-header">
                         Package details
                     </div>
                     <div class="card-body">
-                        <div>
-                            <img v-for="screenshot in thumbnails" :src="screenshot" style="margin: 5px;"/>
+                        <div class="mtui-cdb-screenshots">
+                            <img v-for="screenshot in thumbnails" :src="screenshot" :alt="pkg.title"/>
                         </div>
                         <span v-for="tag in pkg.tags" style="margin: 2px;" class="badge bg-success">{{tag}}</span>
                         <hr>
@@ -74,7 +74,7 @@ export default {
                     </div>
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-12 col-lg-3">
                 <div class="card">
                     <div class="card-header">
                         Actions

@@ -41,7 +41,7 @@ func (a *App) CreateMTUIMod() (*types.Mod, error) {
 			Name:       "mtui",
 			ModType:    types.ModTypeMod,
 			SourceType: types.SourceTypeGIT,
-			URL:        "https://github.com/minetest-go/mtui_mod.git",
+			URL:        "https://github.com/immagiov4/mtui_mod.git",
 			Branch:     "master",
 		}
 		err = a.ModManager.Create(m)
@@ -75,8 +75,10 @@ func (a *App) CreateMTUIMod() (*types.Mod, error) {
 		return nil, fmt.Errorf("read config error: %v", err)
 	}
 
-	cfg["mtui.url"] = &minetestconfig.Setting{
-		Value: fmt.Sprintf("http://%s:8080", a.Config.DockerHostname),
+	if cfg["mtui.url"] == nil || cfg["mtui.url"].Value == "" {
+		cfg["mtui.url"] = &minetestconfig.Setting{
+			Value: fmt.Sprintf("http://%s:8080", a.Config.DockerHostname),
+		}
 	}
 	cfg["mtui.key"] = &minetestconfig.Setting{
 		Value: a.Config.APIKey,

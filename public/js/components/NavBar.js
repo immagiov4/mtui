@@ -40,10 +40,10 @@ export default {
 		"theme-switcher": ThemeSwitcher
 	},
 	template: /*html*/`
-		<nav class="navbar navbar-expand-lg navbar-dark" v-bind:class="{'bg-dark': !maintenance, 'bg-warning': maintenance}">
+		<nav class="navbar navbar-expand navbar-dark mtui-navbar" v-bind:class="{'bg-dark': !maintenance, 'bg-warning': maintenance, 'mtui-navbar-authenticated': is_logged_in}">
 			<div class="container-fluid">
 				<router-link to="/" class="navbar-brand">Minetest Web UI</router-link>
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0" v-if="is_logged_in">
+				<ul class="navbar-nav me-auto" v-if="is_logged_in">
 					<li class="nav-item" v-if="has_priv('interact')">
 						<router-link to="/" class="nav-link">
 							<i class="fa fa-home"></i> Home
@@ -173,20 +173,17 @@ export default {
 						</li>
 					</nav-dropdown>
 				</ul>
-				<div class="d-flex">
-					<stats-display class="navbar-text" style="padding-right: 10px;"/>
+				<div class="mtui-nav-tools">
+					<stats-display class="navbar-text"/>
 					<div class="btn-group" v-if="is_logged_in">
-						<button class="btn btn-outline-secondary">
-							<router-link to="/profile">
-								<skin-preview :playername="get_claims.username"/>
-								<span>
-									Logged in as <b>{{get_claims.username}}</b>
-								</span>
-							</router-link>
-						</button>
-						<button class="btn btn-secondary" v-on:click="logout" v-if="!maintenance">
+						<router-link to="/profile" class="btn btn-outline-secondary mtui-profile">
+							<skin-preview :playername="get_claims.username"/>
+							<span>
+								<b>{{get_claims.username}}</b>
+							</span>
+						</router-link>
+						<button class="btn btn-secondary" v-on:click="logout" v-if="!maintenance" title="Logout" aria-label="Logout">
 							<i class="fa-solid fa-right-from-bracket"></i>
-							Logout
 						</button>
 					</div>
 					<theme-switcher/>

@@ -53,41 +53,35 @@ export default {
     },
     template: /*html*/`
     <default-layout icon="terminal" title="Shell" :breadcrumb="breadcrumb">
-        <form @submit.prevent="execute" class="row">
-            <div class="col-md-10">
-                <input type="text" placeholder="Command" v-model="command" class="form-control"/>
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-outline-primary w-100" type="submit" :disabled="!command">
-                    Execute
-                    &nbsp;
-                    <i class="fa-solid fa-check" v-if="success" style="color: green;"></i>
-                    <i class="fa-solid fa-xmark" v-if="error" style="color: red;"></i>
-                    <i class="fa-solid fa-spinner fa-spin" v-if="busy"></i>
-                    &nbsp;
-                    <span v-if="delay">
-                        ({{delay}} ms)
-                    </span>
-                </button>
-            </div>
-        </form>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="input-group">
-                    <a class="btn btn-outline-secondary" v-on:click="predefined('status')" v-if="has_priv('interact')">status</a>
-                    <a class="btn btn-outline-secondary" v-on:click="predefined('privs')" v-if="has_priv('interact')">privs</a>
-                    <a class="btn btn-outline-secondary" v-on:click="predefined('days')" v-if="has_priv('interact')">days</a>
-                    <a class="btn btn-outline-secondary" v-on:click="predefined('time 6000')" v-if="has_priv('settime')">time 6000</a>
-                    <a class="btn btn-warning" v-on:click="predefined('shutdown 120 -r')" v-if="has_priv('server')">shutdown 120 -r</a>
+        <section class="mtui-shell">
+            <label for="shell-command" class="form-label">Command</label>
+            <form @submit.prevent="execute" class="row">
+                <div class="col-md-10">
+                    <input id="shell-command" type="text" placeholder="Enter a command…" v-model="command" class="form-control"/>
                 </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100" type="submit" :disabled="!command">
+                        Execute
+                        &nbsp;
+                        <i class="fa-solid fa-check text-success" v-if="success"></i>
+                        <i class="fa-solid fa-xmark text-danger" v-if="error"></i>
+                        <i class="fa-solid fa-spinner fa-spin" v-if="busy"></i>
+                        &nbsp;
+                        <span v-if="delay">
+                            ({{delay}} ms)
+                        </span>
+                    </button>
+                </div>
+            </form>
+            <div class="mtui-quick-commands" role="group" aria-label="Quick commands">
+                <button type="button" class="btn btn-outline-secondary" v-on:click="predefined('status')" v-if="has_priv('interact')">status</button>
+                <button type="button" class="btn btn-outline-secondary" v-on:click="predefined('privs')" v-if="has_priv('interact')">privs</button>
+                <button type="button" class="btn btn-outline-secondary" v-on:click="predefined('days')" v-if="has_priv('interact')">days</button>
+                <button type="button" class="btn btn-outline-secondary" v-on:click="predefined('time 6000')" v-if="has_priv('settime')">time 6000</button>
+                <button type="button" class="btn btn-warning" v-on:click="predefined('shutdown 120 -r')" v-if="has_priv('server')">shutdown 120 -r</button>
             </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col-md-12">
-                <pre class="w-100" style="height: 300px; background-color: grey;">{{message}}</pre>
-            </div>
-        </div>
+            <pre class="mtui-terminal" aria-label="Server output">{{message}}</pre>
+        </section>
         <chatcommand-list v-on:selected="cmd => { command = cmd }"/>
     </default-layout>
     `

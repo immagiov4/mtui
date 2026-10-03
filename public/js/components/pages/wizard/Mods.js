@@ -38,22 +38,22 @@ const ModSuggestion = {
     template: /*html*/`
     <div class="card w-100" style="padding: 10px;">
         <div class="row">
-            <div class="col-3">
+            <div class="col-12 col-md-3">
                 <h4>
                     {{name}}
                     <small class="text-muted">by {{author}}</small>
                 </h4>
             </div>
-            <div class="col-3">
+            <div class="col-12 col-md-3">
                 <cdb-link :name="name" :author="author"/>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-md-4">
                 {{description}}
                 <span class="badge bg-success" v-if="enables_feature">
                     UI-Integration
                 </span>
             </div>
-            <div class="col-2">
+            <div class="col-12 col-md-2">
                 <button class="btn btn-success w-100" v-if="!added" v-on:click="add">
                     <i class="fa fa-plus"></i>
                     Add

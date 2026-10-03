@@ -10,8 +10,7 @@ export default {
 		<div>
 			<nav-bar/>
 			<error-toast/>
-			<div class="container-fluid">
-				<br>
+			<div class="container-fluid mtui-content">
 				<router-view></router-view>
 			</div>
 		</div>

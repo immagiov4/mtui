@@ -4,7 +4,17 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/docker/docker/api/types/container"
 )
+
+// Bound disk use and decouple console output from a slow logging driver.
+func (c *Config) EngineLogConfig() container.LogConfig {
+	return container.LogConfig{Type: "local", Config: map[string]string{
+		"mode": "non-blocking", "max-buffer-size": "4m",
+		"max-size": "10m", "max-file": "3",
+	}}
+}
 
 func (c *Config) MinetestCommand() []string {
 	cmd := []string{"--world", "/world", "--config", "/minetest.conf"}
@@ -35,6 +45,7 @@ type Config struct {
 	LogStreamAuthorization  string
 	MinetestConfig          string
 	TailEngineLogfile       string
+	CollectServiceLogs      bool
 	GeoIPAPI                string
 	DockerMinetestConfig    string
 	DockerMinetestPort      int
@@ -68,6 +79,7 @@ func NewConfig(world_dir string) *Config {
 		LogStreamAuthorization:  os.Getenv("LOG_STREAM_AUTHORIZATION"),
 		MinetestConfig:          os.Getenv("MINETEST_CONFIG"),
 		TailEngineLogfile:       os.Getenv("TAIL_ENGINE_LOGFILE"),
+		CollectServiceLogs:      os.Getenv("COLLECT_SERVICE_LOGS") == "true",
 		GeoIPAPI:                os.Getenv("GEOIP_API"),
 		DockerMinetestConfig:    os.Getenv("DOCKER_MINETEST_CONFIG"),
 		DockerMinetestPort:      int(port),

@@ -51,7 +51,7 @@ export default {
     template: /*html*/`
     <default-layout v-if="mail" icon="envelope-open" title="Read mail" :breadcrumb="breadcrumb">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-12 col-lg-9">
                 <h4 v-if="is_sent">
                     Mail sent to
                     <small class="text-muted">
@@ -65,7 +65,7 @@ export default {
                     </small>
                 </h4>
             </div>
-            <div class="col-md-2 btn-group">
+            <div class="col-12 col-lg-3 btn-group">
                 <a v-on:click="reply" class="btn btn-primary">
                     <i class="fa-solid fa-pen-to-square"></i>
                     Reply
@@ -80,7 +80,7 @@ export default {
         <br>
         Subject: <b>{{mail.subject}}</b>
         <hr>
-        <pre>{{mail.body}}</pre>
+        <pre class="mtui-prose">{{mail.body}}</pre>
     </default-layout>
     `
 };

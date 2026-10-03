@@ -49,7 +49,7 @@ export default {
         <div class="alert alert-primary" v-if="sorted_mails.length == 0">
             No mails
         </div>
-        <table class="table table-condensed" v-if="sorted_mails.length > 0">
+        <table class="table table-condensed mtui-table-interactive" v-if="sorted_mails.length > 0">
             <thead>
                 <tr>
                     <th v-if="boxname == 'inbox'">

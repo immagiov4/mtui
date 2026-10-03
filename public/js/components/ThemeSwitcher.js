@@ -36,15 +36,13 @@ export default {
         }
     },
     template: /*html*/`
-    <a class="btn btn-outline-secondary" v-on:click="toggle" title="Toggle dark/light theme">
+    <button type="button" class="btn btn-outline-secondary" v-on:click="toggle" title="Toggle dark/light theme" aria-label="Toggle dark/light theme">
         <i class="fa fa-sun"
-            style="color: yellow;"
             v-if="theme == 'light'">
         </i>
         <i class="fa fa-moon"
-            style="color: lightblue;"
             v-if="theme == 'dark'">
         </i>
-    </a>
+    </button>
     `
 };

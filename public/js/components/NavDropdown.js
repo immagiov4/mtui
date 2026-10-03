@@ -21,10 +21,10 @@ export default {
     },
     template: /*html*/`
     <li class="nav-item dropdown" v-on:mouseleave="open = false">
-        <a class="nav-link dropdown-toggle" v-on:click="open = true" v-on:mouseover="open = true">
+        <button type="button" class="nav-link dropdown-toggle" :aria-expanded="open" v-on:click="open = true" v-on:mouseover="open = true" v-on:keydown.esc="open = false">
             <i v-bind:class="icon_classes" v-if="icon"></i>
             {{name}}
-        </a>		
+        </button>
         <ul class="dropdown-menu" v-bind:class="{'show': open}">
             <slot></slot>
         </ul>

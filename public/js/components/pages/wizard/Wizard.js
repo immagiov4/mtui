@@ -60,8 +60,8 @@ export default {
                 </div>
             </div>
             <div class="row">
-                <div class="col-2"></div>
-                <div class="col-8">
+                <div class="d-none d-lg-block col-lg-2"></div>
+                <div class="col-12 col-lg-8">
                     &nbsp;
                     <engine-step v-if="step == 1"/>
                     <game-step v-if="step == 2"/>
@@ -69,7 +69,7 @@ export default {
                     <settings-step v-if="step == 4"/>
                     <done-step v-if="step == 5"/>
                 </div>
-                <div class="col-2"></div>
+                <div class="d-none d-lg-block col-lg-2"></div>
             </div>
         </default-layout>
     `

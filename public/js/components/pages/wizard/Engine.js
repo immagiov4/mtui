@@ -27,10 +27,10 @@ export default {
         Select the minetest engine to install
         (the engine can be controlled in the <router-link to="/services/engine">engine</router-link> page)
         <div class="row">
-            <div class="col-8">
+            <div class="col-12 col-md-8">
                 <engine-selection/>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-md-4">
                 <button class="btn btn-primary w-100" :disabled="complete || busy || !version" v-on:click="create">
                     <i class="fa fa-check"></i>
                     Install

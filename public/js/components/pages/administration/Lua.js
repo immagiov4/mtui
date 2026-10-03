@@ -49,7 +49,7 @@ export default {
     <default-layout icon="terminal" title="Lua" :breadcrumb="breadcrumb">
         <form @submit.prevent="execute" class="row">
             <div class="col-md-10">
-                <code-editor mode="lua" v-model="code" style="height: 500px;" class="w-100"/>
+                <code-editor mode="lua" v-model="code" class="w-100"/>
             </div>
             <div class="col-md-2">
                 <button class="btn btn-outline-primary w-100" type="submit" :disabled="!code">
@@ -72,7 +72,7 @@ export default {
         </div>
         <div class="row">
             <div class="col-md-12">
-                <pre class="w-100" style="height: 500px; background-color: grey;">{{result}}</pre>
+                <pre class="mtui-terminal">{{result}}</pre>
             </div>
         </div>
     </default-layout>

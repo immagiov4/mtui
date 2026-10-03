@@ -37,6 +37,7 @@ func (app *App) SetupServices() {
 				},
 			},
 			DefaultHostConfig: &container.HostConfig{
+				LogConfig: app.Config.EngineLogConfig(),
 				RestartPolicy: container.RestartPolicy{
 					Name: "always",
 				},

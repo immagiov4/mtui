@@ -7,7 +7,9 @@ func Start(a *app.App) {
 	go chatlogCleanup(a)
 	go mediaScan(a)
 	go modAutoUpdate(a)
-	go serviceLogs(a)
+	if a.Config.CollectServiceLogs {
+		go serviceLogs(a)
+	}
 
 	if a.Config.TailEngineLogfile != "" {
 		go tailLogfile(a)

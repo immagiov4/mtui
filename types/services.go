@@ -10,10 +10,11 @@ var EngineServiceImages = map[string]string{
 	"5.15.0": "ghcr.io/luanti-org/luanti:5.15.0",
 	"5.15.2": "ghcr.io/luanti-org/luanti:5.15.2",
 	"5.16.1": "ghcr.io/luanti-org/luanti:5.16.1",
+	"5.17.0": "ghcr.io/luanti-org/luanti:5.17.0",
 }
 
 // for auto install
-var EngineServiceLatest = "5.16.1"
+var EngineServiceLatest = "5.17.0"
 
 var MatterbridgeServiceImages = map[string]string{
 	"1.26.0": "ghcr.io/42wim/matterbridge:1.26.0",

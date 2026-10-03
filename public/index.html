@@ -11,10 +11,289 @@
 		<link rel="stylesheet" href="node_modules/@vuepic/vue-datepicker/dist/main.css"/>
 		<link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css"/>
 		<style>
-			.CodeMirror {
-				border: 1px solid #eee;
-				height: auto;
+			:root {
+				--mtui-surface: #fff;
+				--mtui-canvas: #f7f7f8;
+				--mtui-ink: #202123;
+				--mtui-muted: #60646b;
+				--mtui-border: #e3e5e8;
+				--mtui-radius: .65rem;
+				--mtui-space: 1.25rem;
+				--mtui-terminal: #202123;
+				--mtui-terminal-ink: #ececf1;
 			}
+			[data-bs-theme="dark"] {
+				--mtui-surface: #292a2d;
+				--mtui-canvas: #202123;
+				--mtui-ink: #ececf1;
+				--mtui-muted: #b4b7bf;
+				--mtui-border: #45464b;
+			}
+			body {
+				background: var(--mtui-canvas);
+				color: var(--mtui-ink);
+				font-size: .9375rem;
+			}
+			.mtui-content { padding: var(--mtui-space); }
+			.mtui-navbar {
+				--bs-navbar-color: #c5c7cd;
+				--bs-navbar-hover-color: #fff;
+				--bs-navbar-active-color: #fff;
+				padding: .5rem var(--mtui-space);
+				font-size: .875rem;
+			}
+			.mtui-navbar > .container-fluid { padding: 0; gap: .5rem 1rem; flex-wrap: wrap; }
+			.mtui-navbar .navbar-brand { font-size: 1rem; font-weight: 600; margin: 0; }
+			.mtui-navbar .navbar-nav { flex-wrap: wrap; gap: .125rem; }
+			.mtui-navbar .nav-link {
+				display: inline-flex;
+				align-items: center;
+				gap: .4rem;
+				white-space: nowrap;
+				border-radius: var(--mtui-radius);
+				padding: .625rem .65rem;
+			}
+			.mtui-navbar .nav-link:hover,
+			.mtui-navbar .router-link-exact-active { background: #34353a; color: #fff; }
+			.mtui-navbar .dropdown-toggle { background: transparent; border: 0; font: inherit; }
+			.mtui-navbar .dropdown-menu { font-size: inherit; padding: .4rem; border-radius: var(--mtui-radius); }
+			.mtui-navbar .dropdown-item { padding: .5rem .65rem; border-radius: .35rem; }
+			.mtui-nav-tools { display: flex; align-items: center; gap: .65rem; margin-left: auto; }
+			.mtui-nav-tools .navbar-text { padding: 0; white-space: nowrap; font-size: .8rem; }
+			.mtui-nav-tools .btn {
+				--bs-btn-color: #ececf1;
+				--bs-btn-bg: transparent;
+				--bs-btn-border-color: #45464b;
+				--bs-btn-hover-bg: #34353a;
+				--bs-btn-hover-color: #fff;
+				--bs-btn-hover-border-color: #60646b;
+				font-size: inherit;
+				white-space: nowrap;
+			}
+			.mtui-navbar.bg-warning {
+				--bs-navbar-color: var(--mtui-terminal);
+				--bs-navbar-hover-color: var(--mtui-terminal);
+				--bs-navbar-active-color: var(--mtui-terminal);
+				--bs-navbar-brand-color: var(--mtui-terminal);
+				--bs-navbar-brand-hover-color: var(--mtui-terminal);
+			}
+			.mtui-navbar.bg-warning .nav-link:hover,
+			.mtui-navbar.bg-warning .router-link-exact-active { background: rgba(0, 0, 0, .08); color: var(--mtui-terminal); }
+			.mtui-navbar.bg-warning .mtui-nav-tools .btn {
+				--bs-btn-color: var(--mtui-terminal);
+				--bs-btn-border-color: var(--mtui-terminal);
+				--bs-btn-hover-bg: var(--mtui-terminal);
+				--bs-btn-hover-color: var(--mtui-terminal-ink);
+				--bs-btn-hover-border-color: var(--mtui-terminal);
+			}
+			.mtui-navbar.bg-warning .navbar-text .fa-sun,
+			.mtui-navbar.bg-warning .navbar-text .fa-moon { color: inherit !important; }
+			.mtui-profile { display: inline-flex; align-items: center; gap: .5rem; text-decoration: none; }
+			.mtui-profile img { object-fit: contain; flex-shrink: 0; }
+			.mtui-breadcrumb {
+				background: transparent;
+				padding: 0 0 1rem;
+				margin-bottom: var(--mtui-space);
+				border-bottom: 1px solid var(--mtui-border);
+				font-size: .875rem;
+			}
+			.mtui-breadcrumb a { color: var(--mtui-muted); text-decoration: none; }
+			.mtui-breadcrumb a:hover { color: var(--mtui-ink); text-decoration: underline; }
+			.mtui-breadcrumb .breadcrumb-item:last-child a { color: var(--mtui-ink); font-weight: 600; }
+			.card { --bs-card-bg: var(--mtui-surface); --bs-card-border-color: var(--mtui-border); --bs-card-border-radius: var(--mtui-radius); }
+			.card-header { padding: .875rem 1rem; background: transparent; font-weight: 600; }
+			.mtui-content .btn { white-space: nowrap; }
+			.mtui-content .btn-group { flex-wrap: wrap; gap: .5rem; }
+			/* Match Bootstrap's grouped-button specificity to keep separate rounded controls. */
+			.mtui-content .btn-group > .btn:nth-child(n) { border-radius: .5rem; margin-left: 0; }
+			.mtui-content .row { row-gap: .75rem; }
+			.mtui-content .table td { overflow-wrap: anywhere; }
+			.mtui-content .table th { overflow-wrap: normal; }
+			.mtui-content .table .badge { white-space: normal; overflow-wrap: anywhere; }
+			.mtui-content .card { min-width: 0; }
+			.mtui-content .card-body, .mtui-content .alert, .mtui-breadcrumb .breadcrumb-item { overflow-wrap: anywhere; }
+			.mtui-content .card-body img { max-width: 100%; object-fit: contain; }
+			.mtui-content .card-body pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+			.mtui-prose { white-space: pre-wrap; overflow-wrap: anywhere; }
+			.mtui-chat-history { height: min(37.5rem, 60vh); overflow-y: auto; background: var(--mtui-surface); border: 1px solid var(--mtui-border); border-radius: var(--mtui-radius); padding: 1rem; margin-bottom: 1rem; }
+			.mtui-chat-row { display: grid; grid-template-columns: 12rem 10rem minmax(0, 1fr); gap: .5rem; padding: .5rem; overflow-wrap: anywhere; }
+			.mtui-chat-success { background: var(--bs-success-bg-subtle); color: var(--bs-success-text-emphasis); }
+			.mtui-chat-error { background: var(--bs-warning-bg-subtle); color: var(--bs-warning-text-emphasis); }
+			.mtui-cdb-preview { width: 16rem; max-width: 100%; margin: .3rem; flex: 0 0 auto; }
+			.mtui-cdb-preview .card-img-top { height: 11.25rem; object-fit: contain; }
+			.mtui-cdb-preview .card-body { display: flex; flex-direction: column; }
+			.mtui-cdb-preview .card-body > .btn { margin-top: auto; align-self: end; }
+			.mtui-cdb-screenshots { display: flex; flex-wrap: wrap; gap: .5rem; }
+			.mtui-cdb-screenshots img { height: auto; }
+			.form-control, .form-select { border-color: var(--mtui-border); border-radius: .5rem; }
+			.form-control::placeholder { color: var(--mtui-muted); }
+			.dp__theme_light {
+				--dp-background-color: var(--mtui-surface);
+				--dp-text-color: var(--mtui-ink);
+				--dp-hover-color: var(--mtui-canvas);
+				--dp-hover-text-color: var(--mtui-ink);
+				--dp-hover-icon-color: var(--mtui-ink);
+				--dp-primary-color: var(--mtui-ink);
+				--dp-primary-text-color: var(--mtui-surface);
+				--dp-primary-disabled-color: var(--mtui-muted);
+				--dp-secondary-color: var(--mtui-muted);
+				--dp-border-color: var(--mtui-border);
+				--dp-menu-border-color: var(--mtui-border);
+				--dp-border-color-hover: var(--mtui-muted);
+				--dp-border-color-focus: var(--mtui-ink);
+				--dp-disabled-color: var(--mtui-canvas);
+				--dp-disabled-color-text: var(--mtui-muted);
+				--dp-icon-color: var(--mtui-muted);
+				--dp-tooltip-color: var(--mtui-surface);
+				--dp-scroll-bar-background: var(--mtui-canvas);
+				--dp-scroll-bar-color: var(--mtui-muted);
+			}
+			.btn-outline-secondary {
+				--bs-btn-color: var(--mtui-muted);
+				--bs-btn-border-color: var(--mtui-muted);
+				--bs-btn-hover-color: var(--mtui-surface);
+				--bs-btn-hover-bg: var(--mtui-ink);
+				--bs-btn-hover-border-color: var(--mtui-ink);
+				--bs-btn-active-color: var(--mtui-surface);
+				--bs-btn-active-bg: var(--mtui-ink);
+				--bs-btn-active-border-color: var(--mtui-ink);
+			}
+			.btn-primary {
+				--bs-btn-bg: var(--mtui-ink);
+				--bs-btn-color: var(--mtui-surface);
+				--bs-btn-border-color: var(--mtui-ink);
+				--bs-btn-hover-bg: var(--mtui-muted);
+				--bs-btn-hover-color: var(--mtui-surface);
+				--bs-btn-hover-border-color: var(--mtui-muted);
+				--bs-btn-active-bg: var(--mtui-ink);
+				--bs-btn-active-color: var(--mtui-surface);
+				--bs-btn-active-border-color: var(--mtui-ink);
+				--bs-btn-disabled-bg: var(--mtui-ink);
+				--bs-btn-disabled-color: var(--mtui-surface);
+				--bs-btn-disabled-border-color: var(--mtui-ink);
+			}
+			.mtui-shell { padding: var(--mtui-space); background: var(--mtui-surface); border: 1px solid var(--mtui-border); border-radius: var(--mtui-radius); margin-bottom: var(--mtui-space); }
+			.mtui-shell .form-label { font-weight: 600; font-size: .875rem; margin-bottom: .5rem; }
+			.mtui-shell form { row-gap: .75rem; }
+			.mtui-shell .form-control, .mtui-shell form .btn { min-height: 2.625rem; }
+			.mtui-quick-commands { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin: 1rem 0; }
+			.mtui-quick-commands .btn { font-size: .875rem; border-radius: .5rem; }
+			.mtui-quick-commands .btn-warning { --bs-btn-bg: #fff3cd; --bs-btn-border-color: #ffe69c; }
+			.mtui-terminal {
+				background: var(--mtui-terminal);
+				color: var(--mtui-terminal-ink);
+				border: 1px solid var(--mtui-border);
+				border-radius: var(--mtui-radius);
+				padding: 1rem;
+				height: 17rem;
+				overflow: auto;
+				font-size: .8125rem;
+				line-height: 1.6;
+				margin: 0;
+			}
+			.mtui-command-list h4 { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
+			.mtui-command-list .table { --bs-table-bg: transparent; --bs-table-border-color: var(--mtui-border); margin-bottom: 0; }
+			.mtui-command-list th { color: var(--mtui-muted); font-size: .8125rem; font-weight: 500; white-space: nowrap; }
+			.mtui-command-list td { vertical-align: middle; padding-top: .75rem; padding-bottom: .75rem; }
+			.mtui-command-list .badge { margin: .125rem; font-weight: 500; }
+			.mtui-config { --mtui-config-actions-width: 18rem; }
+			.mtui-config-toolbar { margin-bottom: var(--mtui-space); font-size: .875rem; }
+			.mtui-config-toolbar .input-group-text { background: var(--mtui-surface); color: var(--mtui-muted); border-color: var(--mtui-border); }
+			.mtui-config-count { text-align: right; white-space: nowrap; color: var(--mtui-muted); }
+			.mtui-config-count .badge { margin: 0 .35rem; font-size: inherit; }
+			.mtui-config-group { margin-bottom: var(--mtui-space); }
+			.mtui-config-group .card-header { font-size: 1rem; margin: 0; background: var(--mtui-canvas); }
+			.mtui-config-group .card-header i { margin-right: .5rem; color: var(--mtui-muted); }
+			.mtui-config-table-container { border-radius: 0 0 var(--mtui-radius) var(--mtui-radius); }
+			.mtui-config-table {
+				--bs-table-bg: var(--mtui-surface);
+				--bs-table-color: var(--mtui-ink);
+				--bs-table-border-color: var(--mtui-border);
+				table-layout: fixed;
+				font-size: .875rem;
+				margin: 0;
+			}
+			.mtui-config-name-column { width: 22%; }
+			.mtui-config-type-column { width: 6%; }
+			.mtui-config-description-column { width: 26%; }
+			.mtui-config-actions-column { width: var(--mtui-config-actions-width); }
+			.mtui-config-table th { font-size: .8125rem; font-weight: 600; color: var(--mtui-muted); }
+			.mtui-config-table th, .mtui-config-table td { padding: .625rem .875rem; vertical-align: middle; }
+			.mtui-config-table tbody tr:last-child td { border-bottom: 0; }
+			.mtui-config-table .badge { font-weight: 500; white-space: normal; overflow-wrap: anywhere; }
+			.mtui-setting-name { overflow-wrap: anywhere; }
+			.mtui-setting-name i { margin-left: .35rem; }
+			.mtui-config-table details { overflow-wrap: anywhere; line-height: 1.5; }
+			.mtui-config-table details[open] summary { margin-bottom: .5rem; }
+			.mtui-config-table summary { cursor: pointer; }
+			.mtui-setting-value .form-control, .mtui-setting-value .form-select { min-height: 2.25rem; font-size: inherit; }
+			.mtui-setting-value .form-switch { margin: 0; }
+			.mtui-setting-value-label { display: none; color: var(--mtui-muted); font-size: .8125rem; margin-bottom: .35rem; }
+			.mtui-setting-actions { text-align: right; }
+			.mtui-setting-buttons { display: inline-flex; gap: .5rem; }
+			.mtui-setting-buttons .btn { display: inline-flex; align-items: center; gap: .4rem; white-space: nowrap; font-size: .8125rem; border-radius: .5rem; }
+			.mtui-setting-buttons .btn-outline-secondary { --bs-btn-bg: var(--mtui-canvas); --bs-btn-border-color: var(--mtui-border); }
+			.mtui-setting-buttons .btn-outline-danger { --bs-btn-bg: var(--bs-danger-bg-subtle); --bs-btn-border-color: transparent; }
+			@media (max-width: 1479.98px) {
+				.mtui-navbar-authenticated .navbar-brand { display: none; }
+			}
+			@media (max-width: 1399.98px) {
+				.mtui-navbar { --bs-navbar-nav-link-padding-x: .25rem; }
+				.mtui-navbar > .container-fluid { column-gap: .5rem; }
+			}
+			@media (max-width: 1199.98px) {
+				.mtui-config-table, .mtui-config-table tbody { display: block; }
+				.mtui-config-table colgroup { display: none; }
+				.mtui-config-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+				.mtui-config-table tbody tr { display: grid; grid-template-columns: minmax(0, 1fr) var(--mtui-config-actions-width); padding: .5rem 0; border-bottom: 1px solid var(--mtui-border); }
+				.mtui-config-table tbody tr:last-child { border-bottom: 0; }
+				.mtui-config-table td { display: block; min-width: 0; border-bottom: 0; padding-top: .375rem; padding-bottom: .375rem; }
+				.mtui-setting-name { font-weight: 600; }
+				.mtui-setting-type { text-align: right; }
+				.mtui-setting-description { grid-column: 1 / -1; }
+				.mtui-setting-value-label { display: block; }
+				.mtui-setting-actions { align-self: end; }
+			}
+			@media (max-width: 991.98px) {
+				.mtui-navbar .navbar-nav { order: 3; width: 100%; }
+			}
+			@media (max-width: 767.98px) {
+				:root { --mtui-space: .875rem; }
+				.mtui-nav-tools { flex-wrap: wrap; gap: .5rem; }
+				.mtui-navbar > .container-fluid { align-items: flex-start; }
+				.mtui-navbar .navbar-nav { flex-direction: row; }
+				.mtui-navbar .dropdown-menu { position: absolute; }
+				.mtui-nav-tools .navbar-text { width: 100%; text-align: right; }
+				.mtui-chat-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+				.mtui-chat-message { grid-column: 1 / -1; }
+				.mtui-cdb-preview { margin-left: 0; margin-right: 0; }
+				.mtui-responsive-table, .mtui-responsive-table tbody { display: block; }
+				.mtui-responsive-table colgroup { display: none; }
+				.mtui-responsive-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+				.mtui-responsive-table tbody tr { display: block; }
+				.mtui-responsive-table tbody .mtui-data-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; padding: .75rem; border-bottom: 1px solid var(--mtui-border); }
+				.mtui-responsive-table tbody .mtui-data-row:last-child { border-bottom: 0; }
+				.mtui-responsive-table td[data-mtui-label] { display: block; min-width: 0; padding: 0; border: 0; }
+				.mtui-responsive-table td[data-mtui-label]::before { content: attr(data-mtui-label); display: block; color: var(--mtui-muted); font-size: .8125rem; font-weight: 600; margin-bottom: .35rem; }
+			}
+			@media (max-width: 575.98px) {
+				.mtui-config-table tbody tr { grid-template-columns: minmax(0, 1fr) auto; }
+				.mtui-setting-value, .mtui-setting-actions { grid-column: 1 / -1; }
+				.mtui-setting-actions { text-align: left; }
+				.mtui-setting-buttons { flex-wrap: wrap; }
+				.mtui-responsive-table tbody .mtui-data-row { grid-template-columns: minmax(0, 1fr); }
+			}
+			.CodeMirror {
+				border: 1px solid var(--mtui-border);
+				border-radius: var(--mtui-radius);
+				height: 24rem;
+				max-width: 100%;
+				background: var(--mtui-surface);
+				color: var(--mtui-ink);
+			}
+			.CodeMirror-gutters { background: var(--mtui-canvas); border-color: var(--mtui-border); }
+			.CodeMirror-linenumber { color: var(--mtui-muted); }
+			.CodeMirror-cursor { border-left-color: var(--mtui-ink); }
 		</style>
 
 		<title>Minetest Web UI {{if .ServerName}}[{{.ServerName}}]{{end}}</title>

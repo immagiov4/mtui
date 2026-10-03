@@ -24,13 +24,13 @@ const SettingSuggestion = {
     template: /*html*/`
     <div class="card w-100" style="padding: 10px;">
         <div class="row">
-            <div class="col-3">
+            <div class="col-12 col-md-3">
                 <h4>{{title}}</h4>
             </div>
-            <div class="col-5">
+            <div class="col-12 col-md-5">
                 {{description}}
             </div>
-            <div class="col-4" v-if="type == 'bool'">
+            <div class="col-12 col-md-4" v-if="type == 'bool'">
                 <button class="btn btn-success w-100" v-if="value == 'true'" v-on:click="set('false')" :disabled="busy">
                     <i class="fa fa-check"></i>
                     Enabled
@@ -42,7 +42,7 @@ const SettingSuggestion = {
                     <i class="fa fa-spinner fa-spin" v-if="busy"></i>
                 </button>
             </div>
-            <div class="col-4" v-if="type == 'int'">
+            <div class="col-12 col-md-4" v-if="type == 'int'">
                 <div class="input-group w-100">
                     <input class="form-control" type="number" v-model="value"/>
                     <button class="btn btn-success" v-on:click="set(this.value)" :disabled="busy">
@@ -52,7 +52,7 @@ const SettingSuggestion = {
                     </button>
                 </div>
             </div>
-            <div class="col-4" v-if="type == 'string'">
+            <div class="col-12 col-md-4" v-if="type == 'string'">
                 <div class="input-group w-100">
                     <input class="form-control" type="text" v-model="value"/>
                     <button class="btn btn-success" v-on:click="set(this.value)" :disabled="busy">

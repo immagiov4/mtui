@@ -14,7 +14,7 @@ export default {
         .then(u => this.image_src = u);
     },
     template: /*html*/`
-        <img :src="image_src" v-if="image_src" height="32" width="16"/>
+        <img :src="image_src" v-if="image_src" height="32" width="16" alt=""/>
         <i class="fas fa-user" v-else></i>
     `
 };

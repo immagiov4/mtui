@@ -31,7 +31,7 @@ export default {
     },
     template: /*html*/`
     <div class="row">
-        <div class="col-2">
+        <div class="col-12 col-md-auto">
             <button class="btn btn-success w-100" v-on:click="save">
                 <i class="fa fa-floppy-disk"></i>
                 Save
@@ -41,6 +41,6 @@ export default {
         </div>
     </div>
     <hr>
-    <code-editor v-model="text" class="w-100" style="height: 800px;" :mode="mode"/>
+    <code-editor v-model="text" class="w-100" :mode="mode"/>
     `
 };

@@ -174,10 +174,8 @@ export default {
                     <dependency-install-row v-for="dep in deps" :dep="dep" :key="dep.name" :selected_dep="dep.selected" v-on:select_dep="select_dep"/>
                 </tbody>
             </table>
-            <div class="row">
-                <div class="col-4"></div>
-                <div class="col-4"></div>
-                <div class="col-4">
+            <div class="row justify-content-end">
+                <div class="col-12 col-md-auto">
                     <button class="btn btn-success w-100" :disabled="busy || install_busy || missing_dep" v-on:click="install_next">
                         <i class="fa fa-plus"></i>
                         Install

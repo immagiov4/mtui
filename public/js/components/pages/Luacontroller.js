@@ -79,7 +79,7 @@ export default {
     template: /*html*/`
         <default-layout title="Luacontroller" icon="microchip" :breadcrumb="breadcrumb">
             <div class="row">
-                <div class="col-2">
+                <div class="col-12 col-lg-3">
                     <button class="btn btn-success w-100" v-on:click="program">
                         <i class="fa fa-microchip"></i>
                         Program
@@ -87,8 +87,7 @@ export default {
                         <i class="fa fa-spinner fa-spin" v-if="busy"></i>
                     </button>
                 </div>
-                <div class="col-2"></div>
-                <div class="col-8">
+                <div class="col-12 col-lg-9">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Channel" v-model="channel"/>
                         <input type="text" class="form-control" placeholder="Message" v-model="message"/>
@@ -102,7 +101,7 @@ export default {
                 </div>
             </div>
             <hr>
-            <code-editor v-model="code" class="w-100" style="height: 800px;" mode="lua"/>
+            <code-editor v-model="code" class="w-100" mode="lua"/>
         </default-layout>
     `
 };

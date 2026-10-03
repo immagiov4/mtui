@@ -52,7 +52,7 @@ export default {
     <default-layout icon="box-open" title="ContentDB" :breadcrumb="breadcrumb">
         <h3>Browse cdb</h3>
         <div class="row">
-            <div class="col-2">
+            <div class="col-12 col-md-2">
                 <label>Type</label>
                 <select class="form-control" v-model="type">
                     <option value="mod">Mod</option>
@@ -60,7 +60,7 @@ export default {
                     <option value="txp">Texture pack</option>
                 </select>
             </div>
-            <div class="col-8">
+            <div class="col-12 col-md-8">
                 <label>Keywords</label>
                 <input type="text" class="form-control" v-model="query" v-on:keyup.enter="search"/>
             </div>

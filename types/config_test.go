@@ -29,3 +29,23 @@ func TestMinetestCommandDefaultsLogfileToWorld(t *testing.T) {
 		t.Fatalf("unexpected command: %v", got)
 	}
 }
+
+func TestServiceLogCollectionRequiresOptIn(t *testing.T) {
+	t.Setenv("COLLECT_SERVICE_LOGS", "")
+	if NewConfig(t.TempDir()).CollectServiceLogs {
+		t.Fatal("service log collection should be disabled by default")
+	}
+	t.Setenv("COLLECT_SERVICE_LOGS", "true")
+	if !NewConfig(t.TempDir()).CollectServiceLogs {
+		t.Fatal("explicit opt-in should enable service log collection")
+	}
+}
+
+func TestEngineLogConfig(t *testing.T) {
+	got := (&Config{}).EngineLogConfig()
+	if got.Type != "local" || got.Config["mode"] != "non-blocking" ||
+		got.Config["max-buffer-size"] != "4m" || got.Config["max-size"] != "10m" ||
+		got.Config["max-file"] != "3" {
+		t.Fatalf("unexpected engine logging policy: %+v", got)
+	}
+}

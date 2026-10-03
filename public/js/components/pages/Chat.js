@@ -88,14 +88,13 @@ export default {
     },
     template: /*html*/`
         <default-layout title="Chat" icon="comment" :breadcrumb="breadcrumb">
-            <div ref="container" style="height: 600px; overflow: scroll;">
-                <div v-for="msg in history" :key="msg.id"
-                    v-bind:class="{'bg-success':msg.success==true, 'bg-warning':msg.success==false}"
-                    style="display: flex;">
-                    <div class="text-muted" style="width: 200px; flex: 0 0 auto;">
+            <div ref="container" class="mtui-chat-history">
+                <div v-for="msg in history" :key="msg.id" class="mtui-chat-row"
+                    v-bind:class="{'mtui-chat-success':msg.success==true, 'mtui-chat-error':msg.success==false}">
+                    <div class="text-muted">
                         {{format_time(msg.timestamp/1000)}}
                     </div>
-                    <div style="width: 200px; flex: 0 0 auto;">
+                    <div>
                         <router-link :to="'/profile/' + msg.name" v-if="msg.name != ''">
                             {{msg.name}}
                         </router-link>
@@ -103,7 +102,7 @@ export default {
                             {{msg.name}}
                         </span>
                     </div>
-                    <div style="flex: 1 1 auto;">
+                    <div class="mtui-chat-message">
                         {{msg.message}}
                     </div>
                 </div>
